@@ -1,0 +1,115 @@
+{
+  "info": {
+    "_postman_id": "544b311a-3b11-4b93-b7fa-06b19860a9e4",
+    "name": "API Gerenciamento Pessoal",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "55016283",
+    "_collection_link": "https://go.postman.co/collection/55016283-544b311a-3b11-4b93-b7fa-06b19860a9e4?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "GET - Listar Tarefas",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/tarefas",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "tarefas"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST - Criar Tarefa",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"titulo\": \"Nova tarefa\",\r\n  \"descricao\": \"Teste POST\",\r\n  \"concluida\": false\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/tarefas",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "tarefas"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT - Atualizar Tarefa",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"titulo\": \"Abastecer atualizado\",\r\n  \"descricao\": \"Abastecer 100 reais de gasolina\",\r\n  \"concluida\": true\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/tarefas/4",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "tarefas",
+            "4"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE - Deletar Tarefa",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"titulo\": \"Nova tarefa\",\r\n  \"descricao\": \"Teste POST\",\r\n  \"concluida\": false\r\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/tarefas/6",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "tarefas",
+            "6"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
