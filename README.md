@@ -1,36 +1,39 @@
-#  GerenciamentoPessoal
+# GerenciamentoPessoal
 
 API REST para gerenciamento de tarefas pessoais desenvolvida com Spring Boot.
 
 ---
 
-#  Tecnologias Utilizadas
+# Tecnologias Utilizadas
 
-- Java
-- Spring Boot
-- Spring Web
-- Spring Data JPA
-- PostgreSQL
-- Lombok
-- Bean Validation
+* Java
+* Spring Boot
+* Spring Web
+* Spring Data JPA
+* PostgreSQL
+* Lombok
+* Bean Validation
+* Swagger/OpenAPI
 
 ---
 
-#  Funcionalidades
+# Funcionalidades
 
 A API permite:
 
-- Listar tarefas
-- Buscar tarefa por ID
-- Criar tarefa
-- Atualizar tarefa
-- Deletar tarefa
-- Validar dados enviados pelo cliente
-- Tratar erros de forma personalizada
+* Listar tarefas
+* Buscar tarefa por ID
+* Criar tarefa
+* Atualizar tarefa
+* Deletar tarefa
+* Validar dados enviados pelo cliente
+* Tratar erros de forma personalizada
+* Documentação automática com Swagger
+* Versionamento da API
 
 ---
 
-#  URL Base da API
+# URL Base da API
 
 ```http
 http://localhost:8080
@@ -38,71 +41,79 @@ http://localhost:8080
 
 ---
 
-#  Estrutura dos Endpoints
+# Versão da API
+
+Foi implementado o versionamento por URL.
+
+```http
+/api/v1/tarefas
+```
 
 ---
 
-#  Listar todas as tarefas
+# Estrutura dos Endpoints
 
-## GET
+## Listar todas as tarefas
+
+### GET
 
 ```http
-GET /api/tarefas
+GET /api/v1/tarefas
 ```
 
-## Resposta
+### Resposta
 
 ```json
 [
   {
     "id": 1,
-    "titulo": "Estudar Spring Boot",
-    "descricao": "Criar API REST",
+    "titulo": "Organizar tarefas",
+    "descricao": "Cadastrar atividades pendentes",
     "concluida": false
   }
 ]
 ```
 
-## Status HTTP
+### Status HTTP
 
 | Código | Descrição |
-|--------|------------|
-| 200 | OK |
+| ------ | --------- |
+| 200    | OK        |
 
 ---
 
-#  Buscar tarefa por ID
+## Buscar tarefa por ID
 
-## GET
-
-```http
-GET /api/tarefas/{id}
-```
-
-## Exemplo
+### GET
 
 ```http
-GET /api/tarefas/1
+GET /api/v1/tarefas/{id}
 ```
 
-## Status HTTP
+### Exemplo
+
+```http
+GET /api/v1/tarefas/1
+```
+
+### Status HTTP
 
 | Código | Descrição |
-|--------|------------|
-| 200 | OK |
-| 404 | Not Found |
+| ------ | --------- |
+| 200    | OK        |
+| 404    | Not Found |
 
 ---
 
-#  Criar nova tarefa
+## Criar nova tarefa
 
-## POST
+### POST
 
 ```http
-POST /api/tarefas
+POST /api/v1/tarefas
 ```
 
-## Body JSON
+### Body JSON
 
 ```json
 {
@@ -112,30 +123,30 @@ POST /api/tarefas
 }
 ```
 
-## Status HTTP
+### Status HTTP
 
-| Código | Descrição |
-|--------|------------|
-| 201 | Created |
-| 400 | Bad Request |
+| Código | Descrição   |
+| ------ | ----------- |
+| 201    | Created     |
+| 400    | Bad Request |
 
 ---
 
-#  Atualizar tarefa
+## Atualizar tarefa
 
-## PUT
-
-```http
-PUT /api/tarefas/{id}
-```
-
-## Exemplo
+### PUT
 
 ```http
-PUT /api/tarefas/1
+PUT /api/v1/tarefas/{id}
 ```
 
-## Body JSON
+### Exemplo
+
+```http
+PUT /api/v1/tarefas/1
+```
+
+### Body JSON
 
 ```json
 {
@@ -145,93 +156,120 @@ PUT /api/tarefas/1
 }
 ```
 
-## Status HTTP
+### Status HTTP
 
-| Código | Descrição |
-|--------|------------|
-| 200 | OK |
-| 400 | Bad Request |
-| 404 | Not Found |
-
----
-
-#  Deletar tarefa
-
-## DELETE
-
-```http
-DELETE /api/tarefas/{id}
-```
-
-## Exemplo
-
-```http
-DELETE /api/tarefas/1
-```
-
-## Status HTTP
-
-| Código | Descrição |
-|--------|------------|
-| 204 | No Content |
-| 404 | Not Found |
+| Código | Descrição   |
+| ------ | ----------- |
+| 200    | OK          |
+| 400    | Bad Request |
+| 404    | Not Found   |
 
 ---
 
-#  Tratamento de Erros
+## Deletar tarefa
 
-A API possui tratamento global de exceções para retornar mensagens amigáveis.
+### DELETE
+
+```http
+DELETE /api/v1/tarefas/{id}
+```
+
+### Exemplo
+
+```http
+DELETE /api/v1/tarefas/1
+```
+
+### Status HTTP
+
+| Código | Descrição  |
+| ------ | ---------- |
+| 204    | No Content |
+| 404    | Not Found  |
+
+---
+
+# Tratamento de Erros
+
+A API possui tratamento global de exceções utilizando `@RestControllerAdvice`.
 
 ## Exemplo — Tarefa não encontrada
 
 ```json
 {
-  "mensagem": "Tarefa não encontrada"
+  "mensagem": "Tarefa não encontrada",
+  "status": 404
 }
 ```
 
-## Exemplo — Validação
+## Exemplo — Erro de Validação
 
 ```json
 {
-  "mensagem": "O título é obrigatório"
+  "mensagem": "O título é obrigatório",
+  "status": 400
 }
 ```
 
 ---
 
-#  Validações Implementadas
+# Validações Implementadas
 
 Os seguintes campos são obrigatórios:
 
-- titulo
-- descricao
-- concluida
+* titulo
+* descricao
+* concluida
+
+Validações realizadas com:
+
+```java
+@NotBlank
+@NotNull
+```
 
 ---
 
-#  Testes da API
+# Documentação Swagger
+
+A documentação interativa da API pode ser acessada após iniciar a aplicação:
+
+```http
+http://localhost:8080/swagger-ui/index.html
+```
+
+A documentação apresenta:
+
+* Endpoints disponíveis
+* Métodos HTTP
+* Parâmetros aceitos
+* Estruturas de requisição
+* Estruturas de resposta
+
+---
+
+# Testes da API
 
 Os testes da API foram realizados utilizando:
 
-- Postman
+* Postman
 
 ---
 
-#  Códigos HTTP Utilizados
+# Códigos HTTP Utilizados
 
-| Código | Descrição |
-|--------|------------|
-| 200 | OK |
-| 201 | Created |
-| 204 | No Content |
-| 400 | Bad Request |
-| 404 | Not Found |
-| 500 | Internal Server Error |
+| Código | Descrição             |
+| ------ | --------------------- |
+| 200    | OK                    |
+| 201    | Created               |
+| 204    | No Content            |
+| 400    | Bad Request           |
+| 404    | Not Found             |
+| 500    | Internal Server Error |
 
 ---
 
-#  Arquitetura do Projeto
+# Arquitetura do Projeto
 
 O projeto foi organizado utilizando arquitetura em camadas:
 
@@ -242,10 +280,23 @@ repository
 model
 dto
 exception
+config
 ```
 
 ---
 
-#  Autor
+# Melhorias Implementadas nesta Versão
+
+* Reestruturação da arquitetura do projeto
+* Implementação de versionamento da API
+* Tratamento global de exceções
+* Respostas de erro padronizadas
+* Validação de dados de entrada
+* Integração com Swagger/OpenAPI
+* Documentação atualizada
+
+---
+
+# Autor
 
 Marcelo Borges
