@@ -189,11 +189,84 @@ DELETE /api/v1/tarefas/1
 
 ---
 
-# Tratamento de Erros
+# # Endpoints da API
 
-A API possui tratamento global de exceções utilizando `@RestControllerAdvice`.
+## 1. Listar todas as tarefas
 
-## Exemplo — Tarefa não encontrada
+Retorna todas as tarefas cadastradas no sistema.
+
+### Método
+
+```http
+GET /api/v1/tarefas
+```
+
+### Parâmetros
+
+Nenhum.
+
+### Exemplo de Requisição
+
+```http
+GET http://localhost:8080/api/v1/tarefas
+```
+
+### Resposta de Sucesso (200 OK)
+
+```json
+[
+  {
+    "id": 1,
+    "titulo": "Organizar tarefas",
+    "descricao": "Cadastrar atividades pendentes",
+    "concluida": false
+  }
+]
+```
+
+### Códigos de Resposta
+
+| Código | Descrição                   |
+| ------ | --------------------------- |
+| 200    | Lista retornada com sucesso |
+| 500    | Erro interno do servidor    |
+
+---
+
+## 2. Buscar tarefa por ID
+
+Retorna uma tarefa específica.
+
+### Método
+
+```http
+GET /api/v1/tarefas/{id}
+```
+
+### Parâmetros
+
+| Parâmetro | Tipo | Descrição               |
+| --------- | ---- | ----------------------- |
+| id        | Long | Identificador da tarefa |
+
+### Exemplo de Requisição
+
+```http
+GET http://localhost:8080/api/v1/tarefas/1
+```
+
+### Resposta de Sucesso (200 OK)
+
+```json
+{
+  "id": 1,
+  "titulo": "Organizar tarefas",
+  "descricao": "Cadastrar atividades pendentes",
+  "concluida": false
+}
+```
+
+### Resposta de Erro (404 Not Found)
 
 ```json
 {
@@ -202,13 +275,174 @@ A API possui tratamento global de exceções utilizando `@RestControllerAdvice`.
 }
 ```
 
-## Exemplo — Erro de Validação
+### Códigos de Resposta
+
+| Código | Descrição                |
+| ------ | ------------------------ |
+| 200    | Tarefa encontrada        |
+| 404    | Tarefa não encontrada    |
+| 500    | Erro interno do servidor |
+
+---
+
+## 3. Criar nova tarefa
+
+Cria uma nova tarefa.
+
+### Método
+
+```http
+POST /api/v1/tarefas
+```
+
+### Body JSON
+
+| Campo     | Tipo    | Obrigatório |
+| --------- | ------- | ----------- |
+| titulo    | String  | Sim         |
+| descricao | String  | Sim         |
+| concluida | Boolean | Sim         |
+
+### Exemplo de Requisição
+
+```json
+{
+  "titulo": "Fazer compras",
+  "descricao": "Comprar mantimentos para o mês",
+  "concluida": false
+}
+```
+
+### Resposta de Sucesso (201 Created)
+
+```json
+{
+  "id": 1,
+  "titulo": "Fazer compras",
+  "descricao": "Comprar mantimentos para o mês",
+  "concluida": false
+}
+```
+
+### Resposta de Erro (400 Bad Request)
 
 ```json
 {
   "mensagem": "O título é obrigatório",
   "status": 400
 }
+```
+
+### Códigos de Resposta
+
+| Código | Descrição                 |
+| ------ | ------------------------- |
+| 201    | Tarefa criada com sucesso |
+| 400    | Dados inválidos           |
+| 500    | Erro interno do servidor  |
+
+---
+
+## 4. Atualizar tarefa
+
+Atualiza uma tarefa existente.
+
+### Método
+
+```http
+PUT /api/v1/tarefas/{id}
+```
+
+### Parâmetros
+
+| Parâmetro | Tipo | Descrição               |
+| --------- | ---- | ----------------------- |
+| id        | Long | Identificador da tarefa |
+
+### Exemplo de Requisição
+
+```json
+{
+  "titulo": "Fazer compras atualizado",
+  "descricao": "Comprar somente o que falta",
+  "concluida": true
+}
+```
+
+### Resposta de Sucesso (200 OK)
+
+```json
+{
+  "id": 1,
+  "titulo": "Fazer compras atualizado",
+  "descricao": "Comprar somente o que falta",
+  "concluida": true
+}
+```
+
+### Resposta de Erro (404 Not Found)
+
+```json
+{
+  "mensagem": "Tarefa não encontrada",
+  "status": 404
+}
+```
+
+### Códigos de Resposta
+
+| Código | Descrição                     |
+| ------ | ----------------------------- |
+| 200    | Tarefa atualizada com sucesso |
+| 400    | Dados inválidos               |
+| 404    | Tarefa não encontrada         |
+| 500    | Erro interno do servidor      |
+
+---
+
+## 5. Excluir tarefa
+
+Remove uma tarefa do sistema.
+
+### Método
+
+```http
+DELETE /api/v1/tarefas/{id}
+```
+
+### Parâmetros
+
+| Parâmetro | Tipo | Descrição               |
+| --------- | ---- | ----------------------- |
+| id        | Long | Identificador da tarefa |
+
+### Exemplo de Requisição
+
+```http
+DELETE http://localhost:8080/api/v1/tarefas/1
+```
+
+### Resposta de Sucesso (204 No Content)
+
+Sem conteúdo no corpo da resposta.
+
+### Resposta de Erro (404 Not Found)
+
+```json
+{
+  "mensagem": "Tarefa não encontrada",
+  "status": 404
+}
+```
+
+### Códigos de Resposta
+
+| Código | Descrição                   |
+| ------ | --------------------------- |
+| 204    | Tarefa removida com sucesso |
+| 404    | Tarefa não encontrada       |
+| 500    | Erro interno do servidor    |
+
 ```
 
 ---
