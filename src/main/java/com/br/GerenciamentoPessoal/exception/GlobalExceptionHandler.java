@@ -8,16 +8,19 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(RecursoNaoEncontradoException.class)
-    public ResponseEntity<ErroRespostaDTO> tratarRecursoNaoEncontrado(
+    public ResponseEntity<ErroRespostaDTO> tratarNaoEncontrado(
             RecursoNaoEncontradoException ex) {
 
-        ErroRespostaDTO erro = new ErroRespostaDTO(ex.getMessage());
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(
+                        new ErroRespostaDTO(
+                                ex.getMessage(),
+                                HttpStatus.NOT_FOUND.value()
+                        )
+                );
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -25,21 +28,29 @@ public class GlobalExceptionHandler {
             MethodArgumentNotValidException ex) {
 
         String mensagem = ex.getBindingResult()
-                .getFieldError()
-                .getDefaultMessage();
+                .getFieldError() != null
+                ? ex.getBindingResult().getFieldError().getDefaultMessage()
+                : "Dados inválidos";
 
-        ErroRespostaDTO erro = new ErroRespostaDTO(mensagem);
-
-        return ResponseEntity.badRequest().body(erro);
+        return ResponseEntity.badRequest()
+                .body(
+                        new ErroRespostaDTO(
+                                mensagem,
+                                HttpStatus.BAD_REQUEST.value()
+                        )
+                );
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErroRespostaDTO> tratarErroGenerico(Exception ex) {
-
-        ErroRespostaDTO erro =
-                new ErroRespostaDTO("Erro interno do servidor");
+    public ResponseEntity<ErroRespostaDTO> tratarErroGenerico(
+            Exception ex) {
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(erro);
+                .body(
+                        new ErroRespostaDTO(
+                                "Erro interno do servidor",
+                                HttpStatus.INTERNAL_SERVER_ERROR.value()
+                        )
+                );
     }
 }

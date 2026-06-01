@@ -5,8 +5,8 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-
 public class ErroRespostaDTO {
 
     private String mensagem;
+    private int status;
 }

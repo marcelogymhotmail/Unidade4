@@ -2,6 +2,7 @@ package com.br.GerenciamentoPessoal.controller;
 
 import com.br.GerenciamentoPessoal.model.Tarefa;
 import com.br.GerenciamentoPessoal.service.TarefaService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/tarefas")
+@RequestMapping("/api/v1/tarefas")
 @RequiredArgsConstructor
 
 public class TarefaController {
@@ -19,6 +20,7 @@ public class TarefaController {
     private final TarefaService tarefaService;
 
     @GetMapping
+    @Operation(summary = "Lista todas as tarefas")
     public ResponseEntity<List<Tarefa>> listarTodas() {
 
         return ResponseEntity.ok(
@@ -27,6 +29,7 @@ public class TarefaController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Busca uma tarefa pelo ID")
     public ResponseEntity<Tarefa> buscarPorId(
             @PathVariable Long id) {
 
@@ -36,6 +39,7 @@ public class TarefaController {
     }
 
     @PostMapping
+    @Operation(summary = "Cria uma nova tarefa")
     public ResponseEntity<Tarefa> criar(
             @Valid @RequestBody Tarefa tarefa) {
 
@@ -48,6 +52,7 @@ public class TarefaController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Atualiza uma tarefa")
     public ResponseEntity<Tarefa> atualizar(
             @PathVariable Long id,
             @Valid @RequestBody Tarefa tarefa) {
@@ -58,6 +63,7 @@ public class TarefaController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Remove uma tarefa")
     public ResponseEntity<Void> deletar(
             @PathVariable Long id) {
 
