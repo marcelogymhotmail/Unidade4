@@ -43,7 +43,7 @@ http://localhost:8080
 
 # Versão da API
 
-Foi implementado o versionamento por URL para permitir futuras evoluções sem impactar clientes existentes.
+Foi implementado o versionamento por URL.
 
 ```http
 /api/v1/tarefas
